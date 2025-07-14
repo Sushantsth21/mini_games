@@ -12,6 +12,13 @@ import {
   Star,
   Zap
 } from 'lucide-react';
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/nextjs';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -156,12 +163,43 @@ const Header = () => {
               Play Now
             </motion.button>
             
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-600 transition-colors"
-            >
-              <User className="w-4 h-4 text-gray-300" />
-            </motion.div>
+            <SignedOut>
+              <SignInButton>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-4 py-2 text-purple-400 hover:text-white transition-colors"
+                >
+                  Sign In
+                </motion.button>
+              </SignInButton>
+              <SignUpButton>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-4 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-all"
+                >
+                  Sign Up
+                </motion.button>
+              </SignUpButton>
+            </SignedOut>
+            
+            <SignedIn>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="flex items-center"
+              >
+                <UserButton 
+                  appearance={{
+                    elements: {
+                      avatarBox: "w-8 h-8",
+                      userButtonPopoverCard: "bg-gray-800 border-gray-700",
+                      userButtonPopoverActionButton: "hover:bg-gray-700"
+                    }
+                  }}
+                />
+              </motion.div>
+            </SignedIn>
           </div>
 
           {/* Mobile Menu Button */}
@@ -230,14 +268,43 @@ const Header = () => {
                 })}
                 
                 <motion.div 
-                  className="pt-2 border-t border-gray-800"
+                  className="pt-2 border-t border-gray-800 space-y-2"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.4 }}
                 >
-                  <button className="w-full px-3 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-md font-medium">
+                  <button className="w-full px-3 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-md font-medium mb-2">
                     Play Now
                   </button>
+                  
+                  <SignedOut>
+                    <div className="flex flex-col space-y-2">
+                      <SignInButton>
+                        <button className="w-full px-3 py-2 text-purple-400 hover:text-white hover:bg-gray-800/50 rounded-md transition-colors">
+                          Sign In
+                        </button>
+                      </SignInButton>
+                      <SignUpButton>
+                        <button className="w-full px-3 py-2 bg-purple-600 text-white rounded-md font-medium hover:bg-purple-700 transition-all">
+                          Sign Up
+                        </button>
+                      </SignUpButton>
+                    </div>
+                  </SignedOut>
+                  
+                  <SignedIn>
+                    <div className="flex justify-center pt-2">
+                      <UserButton 
+                        appearance={{
+                          elements: {
+                            avatarBox: "w-8 h-8",
+                            userButtonPopoverCard: "bg-gray-800 border-gray-700",
+                            userButtonPopoverActionButton: "hover:bg-gray-700"
+                          }
+                        }}
+                      />
+                    </div>
+                  </SignedIn>
                 </motion.div>
               </div>
             </motion.div>
